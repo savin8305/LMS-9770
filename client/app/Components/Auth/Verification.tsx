@@ -92,7 +92,7 @@ const Verification: FC<Props> = ({ setRoute }) => {
         >Submit</button>
       </div>
       <br />
-      <h5 className="text-center text-black pt-2 font-Poppins text-xs md:text-sm">
+      <h5 className="text-center  text-black dark:text-white pt-2 font-Poppins text-xs md:text-sm">
         Go back to sign in
         <span
           className="text-[#2190ff] pl-1 cursor-pointer"

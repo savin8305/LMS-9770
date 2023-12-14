@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import * as Yup from "yup";
 import { styles } from "../../styles/styles";
+import { userRegistration } from "@/redux/features/auth/authSlice";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -21,11 +22,14 @@ const schema = Yup.object().shape({
 
 const SignUp: FC<Props> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
+  // const [register,{}]=userRegistration
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },
     validationSchema: schema,
-    onSubmit: ({ email, password }) => {
-           setRoute("Verification")
+    onSubmit: async ({name, email, password }) => {
+           const data={
+            name,email,password
+           }
      },
   });
   const { errors, touched, values, handleChange, handleSubmit } = formik;
@@ -84,14 +88,14 @@ const SignUp: FC<Props> = ({ setRoute }) => {
       animate="visible"
       exit={{ opacity: 0, y: -20 }}
       variants={containerVariants}
-      className="w-full max-w-md mx-auto mt-4 p-4 bg-gradient-to-br dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 shadow-md rounded-md"
+      className="w-full max-w-md mx-auto mt-4 p-4  rounded-md"
     >
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className={`${styles.title} text-xl md:text-2xl lg:text-3xl font-bold mb-2 md:mb-4 text-center text-black`}
       >
-        Join with Elearning{" "}
+        JOIN WITH ELEARNING{" "}
       </motion.h1>
       <form onSubmit={handleSubmit} className="space-y-2">
         <motion.div
@@ -237,6 +241,7 @@ const SignUp: FC<Props> = ({ setRoute }) => {
           whileHover="hover"
           whileTap="tap"
           className={`${styles.button} w-full`}
+          onClick={()=>setRoute("Verification")}
         >
           Sign Up
         </motion.button>
@@ -252,7 +257,7 @@ const SignUp: FC<Props> = ({ setRoute }) => {
             />
           </div>
         </div>
-        <h5 className="text-center text-black pt-2 font-Poppins text-xs md:text-sm">
+        <h5 className="text-center text-black dark:text-white pt-2 font-Poppins text-xs md:text-sm">
           Already have an account ?
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"

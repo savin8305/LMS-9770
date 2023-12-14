@@ -17,13 +17,13 @@ const Hero: FC<HeroProps> = () => {
   };
 
   return (
-    <motion.div className="dark:bg-black bg-white grid grid-cols-1 md:grid-cols-2 h-screen ">
+    <motion.div className="dark:bg-black bg-white grid grid-cols-1 md:grid-cols-2 h-screen">
       {/* Background Image */}
-      <motion.div className="relative z-10 flex flex-col justify-center items-center text-white text-center p-8 md:p-16">
+      <motion.div className="relative z-10 flex flex-col justify-center items-center text-white text-center p-4 md:p-8">
         <motion.h1
           {...fadeInUp}
           transition={{ delay: 0.5, duration: 1, ease: "easeInOut" }}
-          className="text-3xl sm:text-4xl md:text-2xl lg:text-3xl xl:text-4xl font-extrabold mb-2 leading-tight text-purple-300"
+          className="text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold mb-8 -mt-32 leading-tight text-purple-300"
         >
           Embrace the Unconventional, <br /> Ignite Imaginations
         </motion.h1>
@@ -38,16 +38,16 @@ const Hero: FC<HeroProps> = () => {
           {...fadeInUp}
           transition={{ delay: 1.5, duration: 0.5, ease: "easeInOut" }}
           href="/courses"
-          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-8 rounded-full text-md sm:text-xl md:text-2xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition duration-300 inline-block mb-4"
+          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-8 rounded-full text-md sm:text-xl md:text-2xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition duration-300 inline-block mb-8"
         >
-          Experience the Future
+          Hi Experience the Future
         </motion.a>
         {/* Search Bar */}
         <motion.div className="flex items-center justify-center mb-4 relative">
           <motion.input
             type="text"
             placeholder="Search courses..."
-            className="bg-white text-gray-800 py-3 dark:bg-white px-6 rounded-full text-md sm:text-xl md:text-2xl focus:outline-none focus:ring focus:border-blue-300 transition duration-300 ease-in-out"
+            className="bg-white text-gray-800 py-3 dark:bg-white px-6 rounded-full text-md sm:text-xl md:text-2xl focus:outline-none focus:ring focus:border-blue-300 transition duration-300 bg-blend-color ease-in-out"
             whileHover={{ scale: 1.05 }}
             whileFocus={{
               scale: 1.1,
@@ -86,19 +86,19 @@ const Hero: FC<HeroProps> = () => {
               className="rounded-full border-r-slate-400"
             />
           </motion.div>
-          <p className="px-5 text-lg dark:text-purple-100 text-blue-500">
+          <p className="px-8 text-lg  dark:text-purple-100 text-blue-500">
             500K+ People already trusted us. View Courses
           </p>
         </motion.div>
       </motion.div>
 
       {/* Illustration */}
-      <motion.div className="mt-2 hidden dark:border-l-teal-50 dark:rounded-full md:block relative border-l-teal-50 rounded-full overflow-hidden col-span-1">
+      <motion.div className="mt-8   hidden dark:border-l-teal-50  md:block relative border-l-teal-50  overflow-hidden col-span-1">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="absolute inset-0 dark:bg-gradient-to-r mix-blend-multiply"
+          className="absolute inset-0 dark:bg-white mix-blend-multiply"
         />
         <Image
           src="/business-img.webp"
@@ -107,7 +107,7 @@ const Hero: FC<HeroProps> = () => {
           width={30}
           height={30}
           objectFit="contain"
-          className="dark:z-1000  h-50 w-50 dark:bg-slate-100 hero_animation bg:hero_animation"
+          className="dark:z-1000 h-50 w-50 "
         />
       </motion.div>
     </motion.div>

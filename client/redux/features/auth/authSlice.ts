@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import exp from "constants";
 
 const initialState={
     token:"",
@@ -20,8 +19,8 @@ const authSlice=createSlice({
         userLoggedOut:(state)=>{
             state.token="";
             state.token="";
-        }
-    }
-})
+        },
+    },
+});
 
 export const {userRegistration,userLoggedIn,userLoggedOut}=authSlice.actions;

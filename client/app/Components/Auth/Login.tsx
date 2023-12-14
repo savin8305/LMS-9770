@@ -81,7 +81,7 @@ const Login: FC<Props> = ({ setRoute }) => {
       animate="visible"
       exit={{ opacity: 0, y: -20 }}
       variants={containerVariants}
-      className="w-full max-w-md mx-auto p-4 bg-gradient-to-br dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 shadow-md rounded-md"
+      className="w-full max-w-md mx-auto p-4  rounded-md"
     >
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
@@ -209,7 +209,7 @@ const Login: FC<Props> = ({ setRoute }) => {
             <AiFillGithub size={24} className="text-black cursor-pointer ml-2"/>
           </div>
         </div>
-        <h5 className="text-center text-black pt-2 font-Poppins text-xs md:text-sm">
+        <h5 className="text-center  text-black dark:text-white pt-2 font-Poppins text-xs md:text-sm">
           Don't have an account?{" "}
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"
