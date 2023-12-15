@@ -6,6 +6,7 @@ import { ThemeProvider } from "./utils/Theme-provider";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./Provider";
 import { SessionProvider } from "next-auth/react";
+import React from "react";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -29,7 +30,7 @@ export default function RootLayout({
         <Providers>
           <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              {children}
+              <Custom> {children}</Custom>{" "}
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
           </SessionProvider>
@@ -37,4 +38,11 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+const Custom:React.FC<{children:React.ReactNode}>=({children})=>{
+     return (
+      <div className="flex flex-col justify-center items-center min-h-screen">
+        {children}
+      </div>
+     )
 }
