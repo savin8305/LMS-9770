@@ -16,7 +16,7 @@ module.exports = (err: any, req: Request, res: Response, next: NextFunction) => 
         const updatedError = new ErrorHandler(message, 400);
         err = updatedError;
     }
-    
+
     if (err.name === 'jsonWebTokenError') {
         const message = `jsonwebtoken is invalid , try again`;
         const updatedError = new ErrorHandler(message, 400);
@@ -29,6 +29,6 @@ module.exports = (err: any, req: Request, res: Response, next: NextFunction) => 
     }
     res.status(err.statusCode).json({
         success: false,
-        message: err.message
+        message:err.message
     })
 }

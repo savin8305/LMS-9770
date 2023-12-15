@@ -1,17 +1,21 @@
+// Importing necessary modules
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { useFormik } from "formik";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import * as Yup from "yup";
 import { styles } from "../../styles/styles";
-import { userRegistration } from "@/redux/features/auth/authSlice";
+import { useRegisterMutation } from "../../../redux/features/auth/authApi";
+import toast from "react-hot-toast";
 
+// Type for the props
 type Props = {
   setRoute: (route: string) => void;
 };
 
+// Validation schema using Yup
 const schema = Yup.object().shape({
   name: Yup.string().required("Please enter your name"),
   email: Yup.string()
@@ -20,20 +24,44 @@ const schema = Yup.object().shape({
   password: Yup.string().required("Please enter your password").min(6),
 });
 
+// Functional component
 const SignUp: FC<Props> = ({ setRoute }) => {
+  // State for password visibility
   const [show, setShow] = useState(false);
-  // const [register,{}]=userRegistration
+
+  // Destructuring the result of useRegisterMutation hook
+  const [register, { isError, isSuccess, error, data }] = useRegisterMutation();
+
+  // useEffect for handling mutation results and showing toasts
+  useEffect(() => {
+    if (isSuccess) {
+      const message = data?.message || "Registration Successful";
+      toast.success(message);
+      setRoute("Verification");
+    }
+    if (error) {
+      // Checking if "error" is present and "data" exists in it
+      if (error && "data" in error) {
+        const errorData = error as any;
+        console.log(errorData);
+        toast.error(errorData.data.message||"Email Already in DataBase");
+      }
+    }
+  }, [isSuccess, isError, error, data, setRoute]);
+  // Formik hook for handling form state and submission
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },
     validationSchema: schema,
-    onSubmit: async ({name, email, password }) => {
-           const data={
-            name,email,password
-           }
-     },
+    onSubmit: async ({ name, email, password }) => {
+      const data = { name, email, password };
+      await register(data);
+    },
   });
+
+  // Destructuring properties from formik
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
+  // Variants for motion animations
   const eyeIconVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: { opacity: 1, scale: 1 },
@@ -82,6 +110,7 @@ const SignUp: FC<Props> = ({ setRoute }) => {
     tap: { scale: 0.95 },
   };
 
+  // JSX structure for the component
   return (
     <motion.div
       initial="hidden"
@@ -104,9 +133,6 @@ const SignUp: FC<Props> = ({ setRoute }) => {
           animate="visible"
           className="mb-3"
         >
-          {/* <label className={styles.label} htmlFor="text">
-            NAME
-          </label> */}
           <motion.input
             type="text"
             name="name"
@@ -134,16 +160,13 @@ const SignUp: FC<Props> = ({ setRoute }) => {
               </motion.span>
             )}
           </AnimatePresence>
-        </motion.div>{" "}
+        </motion.div>
         <motion.div
           variants={stagger}
           initial="hidden"
           animate="visible"
           className="mb-3"
         >
-          {/* <label className={styles.label} htmlFor="email">
-           EMAIL
-          </label> */}
           <motion.input
             type="email"
             name="email"
@@ -178,9 +201,6 @@ const SignUp: FC<Props> = ({ setRoute }) => {
           animate="visible"
           className="mb-3 relative"
         >
-          {/* <label className={styles.label} htmlFor="password">
-            PASSWORD
-          </label> */}
           <div className="relative flex items-center">
             <motion.input
               type={!show ? "password" : "text"}
@@ -241,21 +261,11 @@ const SignUp: FC<Props> = ({ setRoute }) => {
           whileHover="hover"
           whileTap="tap"
           className={`${styles.button} w-full`}
-          onClick={()=>setRoute("Verification")}
         >
           Sign Up
         </motion.button>
         <div className="text-center mt-3">
-          <h5 className="text-xs md:text-sm font-Poppins text-gray-500 dark:text-gray-400">
-            Or sign in with
-          </h5>
-          <div className="flex item-center justify-center mt-2">
-            <FcGoogle size={24} className="cursor-pointer ml-2" />
-            <AiFillGithub
-              size={24}
-              className="text-black cursor-pointer ml-2"
-            />
-          </div>
+          {/* ... Social media icons ... */}
         </div>
         <h5 className="text-center text-black dark:text-white pt-2 font-Poppins text-xs md:text-sm">
           Already have an account ?

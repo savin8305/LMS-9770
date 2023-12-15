@@ -1,14 +1,17 @@
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { useFormik } from "formik";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from 'react-icons/fc';
-import { AiFillGithub } from 'react-icons/ai';
+import { FcGoogle } from "react-icons/fc";
+import { AiFillGithub } from "react-icons/ai";
 import * as Yup from "yup";
 import { styles } from "../../styles/styles";
+import { useLogginMutation } from "../../../redux/features/auth/authApi";
+import toast from "react-hot-toast";
 
 type Props = {
   setRoute: (route: string) => void;
+  setOpen: (open: boolean) => void;
 };
 
 const schema = Yup.object().shape({
@@ -16,15 +19,29 @@ const schema = Yup.object().shape({
   password: Yup.string().required("Please enter your password").min(6),
 });
 
-const Login: FC<Props> = ({ setRoute }) => {
+const Login: FC<Props> = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
+  const [login, { isSuccess, isError, error, data }] = useLogginMutation();
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
-    onSubmit: ({ email, password }) => {
-      console.log(email, password);
+    onSubmit: async ({ email, password }) => {
+      await login({ email, password });
     },
   });
+  useEffect(() => {
+    if (isSuccess) {
+      const message = data?.message || "Login Successful";
+      toast.success(message);
+      setOpen(false);
+    }
+    if (error) {
+      const errorData = error as any;
+      console.log(errorData);
+      const errorMessage = errorData?.data?.message;
+      toast.error(errorMessage);
+    }
+  }, [isSuccess, isError, error, data, setRoute]);
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   const eyeIconVariants = {
@@ -205,8 +222,11 @@ const Login: FC<Props> = ({ setRoute }) => {
             Or sign in with
           </h5>
           <div className="flex item-center justify-center mt-2">
-            <FcGoogle size={24} className="cursor-pointer ml-2"/>
-            <AiFillGithub size={24} className="text-black cursor-pointer ml-2"/>
+            <FcGoogle size={24} className="cursor-pointer ml-2" />
+            <AiFillGithub
+              size={24}
+              className="text-black cursor-pointer ml-2"
+            />
           </div>
         </div>
         <h5 className="text-center  text-black dark:text-white pt-2 font-Poppins text-xs md:text-sm">

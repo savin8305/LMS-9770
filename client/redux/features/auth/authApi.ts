@@ -1,5 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import { userRegistration } from "./authSlice";
+import { userLoggedIn, userRegistration } from "./authSlice";
 
 type RegistrationResponse = {
   message: string;
@@ -17,7 +17,7 @@ export const authApi = apiSlice.injectEndpoints({
         body: data,
         credentials: "include" as const,
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           dispatch(
@@ -26,7 +26,7 @@ export const authApi = apiSlice.injectEndpoints({
             })
           );
         } catch (error: any) {
-          console.error("Registration error:", error.message || error);
+          console.error(JSON.stringify({ error: error.message, details: error.details }));
         }
       },
     }),
@@ -40,7 +40,31 @@ export const authApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+    loggin: builder.mutation({
+      query: ({ email, password }) => ({
+        url: "login",
+        method: "POST",
+        body: {
+          email,
+          password,
+        },
+        credentials: "include" as const,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            userLoggedIn({
+              accessToken: result.data.activationToken,
+              user: result.data.user,
+            })
+          );
+        } catch (error: any) {
+          console.error(JSON.stringify({ error: error.message, details: error.details }));
+        }
+      },
+    }),
   }),
 });
 
-export const { register,activation } = authApi.endpoints;
+export const { useRegisterMutation, useActivationMutation, useLogginMutation } = authApi;
