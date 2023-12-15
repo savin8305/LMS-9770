@@ -6,7 +6,8 @@ import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 import CustomModal from "../utils/CustomModal";
 import Login from "../Components/Auth/Login";
 import SignUp from "./Auth/SignUp";
-import Verification from "./Auth/Verification"
+import Verification from "./Auth/Verification";
+import { useSelector } from "react-redux";
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -17,6 +18,7 @@ type Props = {
 const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const {user} =useSelector((state:any)=>state.auth)
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 80) {
@@ -31,6 +33,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
       setOpenSidebar(false);
     }
   };
+  console.log("userdata",user);  
   return (
     <div className=" w-full relative">
       <div
@@ -110,7 +113,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
           component={SignUp}
         />
       )}
-       {route === "Verification" && open && (
+      {route === "Verification" && open && (
         <CustomModal
           open={open}
           setOpen={setOpen}
