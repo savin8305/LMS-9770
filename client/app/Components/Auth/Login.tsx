@@ -6,8 +6,9 @@ import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import * as Yup from "yup";
 import { styles } from "../../styles/styles";
-import { useLogginMutation } from "../../../redux/features/auth/authApi";
+import { useLoginMutation } from "../../../redux/features/auth/authApi";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -21,7 +22,7 @@ const schema = Yup.object().shape({
 
 const Login: FC<Props> = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
-  const [login, { isSuccess, isError, error, data }] = useLogginMutation();
+  const [login, { isSuccess, isError, error, data }] = useLoginMutation();
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
@@ -222,10 +223,13 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
             Or sign in with
           </h5>
           <div className="flex item-center justify-center mt-2">
-            <FcGoogle size={24} className="cursor-pointer ml-2" />
+            <FcGoogle size={24} className="cursor-pointer ml-2" 
+            onClick={()=>signIn("google")}
+            />
             <AiFillGithub
               size={24}
               className="text-black cursor-pointer ml-2"
+              onClick={()=>signIn("github")}
             />
           </div>
         </div>
