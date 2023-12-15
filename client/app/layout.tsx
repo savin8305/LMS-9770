@@ -7,6 +7,8 @@ import { Toaster } from "react-hot-toast";
 import { Providers } from "./Provider";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
+import Loader from "./Components/Loader/Loader"
+import { useLoadUserQuery } from "../redux/features/api/apiSlice";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -39,10 +41,7 @@ export default function RootLayout({
     </html>
   );
 }
-const Custom:React.FC<{children:React.ReactNode}>=({children})=>{
-     return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        {children}
-      </div>
-     )
-}
+const Custom: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isLoading } = useLoadUserQuery({});
+  return isLoading ? <Loader /> : <>{children}</>;
+};
