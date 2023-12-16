@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 export const navItemsData = [
   {
     name: "Home",
@@ -26,7 +26,12 @@ type Props = {
   activeItem: number;
   isMobile: boolean;
 };
-const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
+
+const NavItems: React.FC<Props> = ({ activeItem, isMobile=true }) => {
+  useEffect(() => {
+    console.log(isMobile);
+    
+  },[]);
   return (
     <>
       <div className="hidden 800px:flex">

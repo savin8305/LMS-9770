@@ -18,7 +18,6 @@ const Hero: FC<HeroProps> = () => {
 
   return (
     <motion.div className="dark:bg-black bg-white grid grid-cols-1 md:grid-cols-2 h-screen">
-      {/* Background Image */}
       <motion.div className="relative z-10 flex flex-col justify-center items-center text-white text-center p-4 md:p-8">
         <motion.h1
           {...fadeInUp}
@@ -103,10 +102,8 @@ const Hero: FC<HeroProps> = () => {
         <Image
           src="/business-img.webp"
           alt="Education Illustration"
-          layout="responsive"
-          width={30}
-          height={30}
-          objectFit="contain"
+          width={600}
+          height={600}
           className="dark:z-1000 h-50 w-50 "
         />
       </motion.div>
