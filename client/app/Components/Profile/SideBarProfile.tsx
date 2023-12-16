@@ -23,9 +23,9 @@ const SideBarProfile: FC<Props> = ({
   logOutHandler,
 }) => {
   return (
-    <div className="w-full">
+    <div className=" w-full">
       <div
-        className={`w-full flex items-center px-3 py-4 cursor-pointer ${
+        className={` w-full flex items-center px-3 py-4 cursor-pointer ${
           active === 1 ? "bg-slate-100 dark:bg-slate-800" : "bg-transparent"
         }`}
         onClick={() => setActive(1)}
@@ -40,18 +40,18 @@ const SideBarProfile: FC<Props> = ({
         </h5>
       </div>
       <div
-        className={`w-full flex items-center px-3 py-4 cursor-pointer ${
+        className={` w-full flex items-center px-3 py-4 cursor-pointer ${
           active === 1 ? "bg-white dark:bg-slate-900" : "bg-transparent"
         }`}
         onClick={() => setActive(1)}
       >
        <RiLockPasswordLine size={20} fill="#E97451"/>
-        <h5 className="text-center pl-3 800px:block hidden font-Poppins text-blue-950 bold text-[18px] font-[100] dark:text-white light:text-balck">
+        <h5 className="fade-In-Up text-center pl-3 800px:block hidden font-Poppins text-blue-950 bold text-[18px] font-[100] dark:text-white light:text-balck">
           Change PassWord
         </h5>
       </div>
       <div
-        className={`w-full flex items-center px-3 py-4 cursor-pointer ${
+        className={`activity w-full flex items-center px-3 py-4 cursor-pointer ${
           active === 1 ? "bg-white dark:bg-slate-900" : "bg-transparent"
         }`}
         onClick={() => setActive(1)}

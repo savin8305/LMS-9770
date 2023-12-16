@@ -13,6 +13,7 @@ import avatar from "../../public/client-2.webp";
 import { useSession } from "next-auth/react";
 import { useSocialAuthMutation } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
+import { useLogOutQuery } from "../../redux/features/auth/authApi";
 
 type Props = {
   open: boolean;
@@ -27,6 +28,10 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
   const { data } = useSession();
   const { user } = useSelector((state: any) => state.auth);
+  const [logout,setLogout]=useState(false)
+  const {}=useLogOutQuery(undefined,{
+    skip:logout ? true :false
+  })
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 80) {
@@ -51,8 +56,13 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
         });
       }
     }
-    if(isSuccess){
-      toast.success("Login Successfully");
+    if(data===null){
+      if(isSuccess){
+        toast.success("Login Successfully");
+      }
+    }
+    if(data===null){
+      setLogout(true);
     }
   }, [data, user]);
   console.log("userdata", user);

@@ -17,13 +17,15 @@ const Hero: FC<HeroProps> = () => {
   };
 
   return (
-    <motion.div className="dark:bg-black bg-white grid grid-cols-1 md:grid-cols-2 h-screen">
+    <motion.div className=" dark:bg-black bg-white grid grid-cols-1 md:grid-cols-2 h-screen">
+     
       <motion.div className="relative z-10 flex flex-col justify-center items-center text-white text-center p-4 md:p-8">
         <motion.h1
           {...fadeInUp}
           transition={{ delay: 0.5, duration: 1, ease: "easeInOut" }}
-          className="text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold mb-8 -mt-32 leading-tight text-purple-300"
+          className="animation-container text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold mb-8 -mt-32 leading-tight text-purple-300"
         >
+          
           Embrace the Unconventional, <br /> Ignite Imaginations
         </motion.h1>
         <motion.p

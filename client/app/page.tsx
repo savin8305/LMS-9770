@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import Heading from "./utils/Heading";
 import Header from "./Components/Header";
 import Hero from "./Components/Hero";
+import "./Components/Profile/styles.css"
 interface Props {}
 
 const Page: FC<Props> = () => {
@@ -16,8 +17,19 @@ const Page: FC<Props> = () => {
         description="Elearning is a platform for students to learn and earn"
         keywords="ml dsa react ts tailwind.css"
       />
-      <Header open={open} setOpen={setOpen} activeItem={activeItem} setRoute={setRoute} route={route}/>
-      <Hero />
+      <Header
+        open={open}
+        setOpen={setOpen}
+        activeItem={activeItem}
+        setRoute={setRoute}
+        route={route}
+      />
+      <div className="animation-container">
+        {/* {[...Array(2)].map((_, index) => (
+          <div key={index} className="circle"></div>
+        ))} */}
+        <Hero />
+      </div>
     </div>
   );
 };
