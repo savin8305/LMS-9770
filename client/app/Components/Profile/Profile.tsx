@@ -4,7 +4,10 @@ import SideBarProfile from "./SideBarProfile";
 import { useLogOutQuery } from "../../../redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
 import ProfileInfo from "./ProfileInfo";
+import ChangePassword from "./ChangePassword"
 import "./styles.css";
+import CertificatePage from "./CertiFicate";
+import AdminDashBoard from "./AdminDashBoard";
 interface Props {
   user: any;
 }
@@ -14,6 +17,7 @@ const Profile: FC<Props> = ({ user }) => {
   const [avatar, setAvatar] = useState(null);
   const [active, setActive] = useState(1);
   const [logout, setLogout] = useState(false);
+  const [name, setName] = useState(user.name);
   const {} = useLogOutQuery(undefined, {
     skip: logout ? true : false,
   });
@@ -33,8 +37,8 @@ const Profile: FC<Props> = ({ user }) => {
   return (
     <div className=" bg-white w-full dark:bg-slate-900 flex ma-auto">
       <div
-        className={`fade-in-right  800px:w-[310px] h-[450px] dark:bg-slate-900 bg-opacity-90 border dark:border-[#ffffff1d] rounded-[5px] shadow-sm mt-[40px] mb-[80px] sticky
-     ${scroll ? "top-[120px]" : "top-[30px]"} left-[30px]`}
+        className={`fade-in-right dark:bg-slate-900 bg-opacity-90 rounded-[5px]  mt-[40px] mb-[80px] sticky
+     ${scroll ? "top-[110px]" : "top-[30px]"} left-[50px]`}
       >
         <SideBarProfile
           user={user}
@@ -42,16 +46,41 @@ const Profile: FC<Props> = ({ user }) => {
           avatar={avatar}
           setActive={setActive}
           logOutHandler={logOutHandler}
+          name={name}
         />
         <br />
         <br />
       </div>
       {active === 1 && (
         <div className="fade-in-right animation-container w-full h-full bg-transparent mt-[80px]">
-          {/* {[...Array(6)].map((_, index) => (
+          {[...Array(6)].map((_, index) => (
             <div key={index} className="circle"></div>
-          ))} */}
-          <ProfileInfo avatar={avatar} user={user} />
+          ))}
+          <ProfileInfo avatar={avatar} user={user} name={name} setName={setName} />
+        </div>
+      )}
+      {active === 4 && (
+        <div className="fade-in-right animation-container w-full h-full bg-transparent mt-[80px]">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="circle"></div>
+          ))}
+          <CertificatePage  userName={name} courseName={'DSA'} />
+        </div>
+      )}
+       {active === 6 && (
+        <div className="fade-in-right animation-container w-full h-full bg-transparent mt-[80px]">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="circle"></div>
+          ))}
+          <ChangePassword/>
+        </div>
+      )}
+       {active === 2 && (
+        <div className="fade-in-right animation-container w-full h-full bg-transparent mt-[80px]">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="circle"></div>
+          ))}
+          <AdminDashBoard/>
         </div>
       )}
     </div>

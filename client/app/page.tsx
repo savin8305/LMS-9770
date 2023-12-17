@@ -25,9 +25,9 @@ const Page: FC<Props> = () => {
         route={route}
       />
       <div className="animation-container">
-        {/* {[...Array(2)].map((_, index) => (
+        {[...Array(6)].map((_, index) => (
           <div key={index} className="circle"></div>
-        ))} */}
+        ))}
         <Hero />
       </div>
     </div>

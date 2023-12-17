@@ -100,9 +100,11 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
                 <>
                   <Link href={"/profile"}>
                     <Image
-                      src={user.avatar ? user.avatar : avatar}
+                      src={user.avatar ? user.avatar.url : avatar}
                       alt="hello"
-                      className="hidden 800px:block w-[42px] h-[42px] rounded-full"
+                      width={30}
+                      height={30}
+                      className="hidden 800px:block w-[42px] h-[42px] rounded-full border-l-sky-400 border-2"
                     />
                   </Link>
                 </>

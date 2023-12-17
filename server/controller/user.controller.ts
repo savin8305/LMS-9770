@@ -260,14 +260,6 @@ export const updateUserInfo = catchAssycError(
       }
 
       // Check if email is provided for update
-      if (email) {
-        // Check if the new email already exists in the database for a different user
-        const isEmailExist = await userModel.findOne({ email, _id: { $ne: userId } });
-        if (isEmailExist) {
-          return next(new ErrorHandler("Email already in use", 400));
-        }
-        user.email = email;
-      }
 
       // Update name if provided
       if (name) {
