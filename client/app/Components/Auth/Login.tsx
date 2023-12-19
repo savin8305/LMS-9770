@@ -99,14 +99,14 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
       animate="visible"
       exit={{ opacity: 0, y: -20 }}
       variants={containerVariants}
-      className="w-full max-w-md mx-auto p-4  rounded-md"
+      className="w-full max-w-md mx-auto p-4 mt-10 rounded-md"
     >
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className={`${styles.title} text-xl md:text-2xl lg:text-3xl font-bold mb-2 md:mb-4 text-center text-black`}
       >
-        Welcome Back
+        WELCOME BACK
       </motion.h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <motion.div
@@ -223,13 +223,17 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
             Or sign in with
           </h5>
           <div className="flex item-center justify-center mt-2">
-            <FcGoogle size={24} className="cursor-pointer ml-2" 
-            onClick={()=>signIn("google")}
+            {/* Google Icon */}
+            <FcGoogle
+              size={40}
+              className={`${styles.buttonIcon} w-half text-black cursor-pointer mr-1  transform transition-transform hover:scale-110`}
+              onClick={() => signIn("google")}
             />
+            {/* GitHub Icon */}
             <AiFillGithub
-              size={24}
-              className="text-black cursor-pointer ml-2"
-              onClick={()=>signIn("github")}
+              size={40}
+              className={`${styles.buttonIcon} w-full text-black cursor-pointer ml-2 transform transition-transform hover:scale-110`}
+              onClick={() => signIn("github")}
             />
           </div>
         </div>

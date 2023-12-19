@@ -7,7 +7,6 @@ import ProfileInfo from "./ProfileInfo";
 import ChangePassword from "./ChangePassword"
 import "./styles.css";
 import CertificatePage from "./CertiFicate";
-import AdminDashBoard from "./AdminDashBoard";
 interface Props {
   user: any;
 }
@@ -75,14 +74,7 @@ const Profile: FC<Props> = ({ user }) => {
           <ChangePassword/>
         </div>
       )}
-       {active === 2 && (
-        <div className="fade-in-right animation-container w-full h-full bg-transparent mt-[80px]">
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="circle"></div>
-          ))}
-          <AdminDashBoard/>
-        </div>
-      )}
+      
     </div>
   );
 };

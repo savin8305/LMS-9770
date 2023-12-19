@@ -10,6 +10,7 @@ import {
 } from "react-icons/ri";
 import { AiOutlineLogout } from "react-icons/ai";
 import { PiCertificateFill } from "react-icons/pi";
+import Link from "next/link";
 
 interface Props {
   user: any;
@@ -58,12 +59,14 @@ const SideBarProfile: FC<Props> = ({
         </div>
       </div>
       {user.role === "admin" && (
+        <Link href={"/admin"}>
         <MenuItem
           icon={<RiDashboard3Line size={20} />}
           text="Dashboard"
           active={active === 2}
           onClick={() => setActive(2)}
         />
+        </Link>
       )}
       <MenuItem
         icon={<RiBook2Line size={20} />}
