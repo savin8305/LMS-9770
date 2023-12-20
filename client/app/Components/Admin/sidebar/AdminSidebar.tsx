@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Sidebar,Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import Link from "next/link";
-import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -16,7 +15,8 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-
+import profileImage from "../../../../public/client-3.webp";
+import Image from "next/image";
 interface ItemProps {
   title: string;
   to: string;
@@ -25,20 +25,24 @@ interface ItemProps {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Item: React.FC<ItemProps> = ({ title, to, icon, selected, setSelected }) => {
+const Item: React.FC<ItemProps> = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
     <MenuItem
       active={selected === title}
-      style={{
-        color: colors.grey[100],
-      }}
       onClick={() => setSelected(title)}
       icon={icon}
+      className="text-black dark:text-white"
     >
-      <Typography>{title}</Typography>
-      <Link href={to}>
+      <Typography className="text-black dark:text-white">{title}</Typography>
+      <Link href={to} passHref={true} legacyBehavior={true}>
         <a>{/* Your link content here */}</a>
       </Link>
     </MenuItem>
@@ -47,39 +51,17 @@ const Item: React.FC<ItemProps> = ({ title, to, icon, selected, setSelected }) =
 
 const AdminSidebar = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <Box
-      sx={{
-        "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-      }}
-    >
-      <Sidebar collapsed={isCollapsed}>
-        <Menu>
+    <Box className="text-black dark:text-white">
+      <Sidebar className="text-black dark:text-white" collapsed={isCollapsed}>
+        <Menu className="bg-white dark:bg-slate-900">
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
+            className="text-black dark:text-white"
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-              color: colors.grey[100],
-            }}
           >
             {!isCollapsed && (
               <Box
@@ -88,7 +70,7 @@ const AdminSidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
+                <Typography className="text-black dark:text-white" variant="h3">
                   ADMINIS
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -99,26 +81,26 @@ const AdminSidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            <Box mb="25px">
+            <Box mb="25px" className="text-black dark:text-white">
               <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../assets/user.png`}
+                <Image
+                  alt="profile-image"
+                  width={30}
+                  height={30}
+                  src={profileImage}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
               <Box textAlign="center">
                 <Typography
                   variant="h2"
-                  color={colors.grey[100]}
+                  className="text-black dark:text-white"
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
                   Ed Roh
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography className="text-black dark:text-white" variant="h5">
                   VP Fancy Admin
                 </Typography>
               </Box>
@@ -136,8 +118,8 @@ const AdminSidebar = () => {
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
+              className="text-black dark:text-white"
             >
               Data
             </Typography>
@@ -164,8 +146,8 @@ const AdminSidebar = () => {
             />
 
             <Typography
+              className="text-black dark:text-white"
               variant="h6"
-              color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Pages
@@ -192,11 +174,7 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+            <Typography variant="h6" sx={{ m: "15px 0 5px 20px" }}>
               Charts
             </Typography>
             <Item
