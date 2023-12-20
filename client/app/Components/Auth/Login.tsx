@@ -30,6 +30,7 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
       await login({ email, password });
     },
   });
+
   useEffect(() => {
     if (isSuccess) {
       const message = data?.message || "Login Successful";
@@ -39,10 +40,11 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
     if (error) {
       const errorData = error as any;
       console.log(errorData);
-      const errorMessage = errorData?.data?.message;
+      const errorMessage = errorData?.data?.message || "Invalid user information";
       toast.error(errorMessage);
     }
   }, [isSuccess, isError, error, data, setRoute]);
+
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   const eyeIconVariants = {
@@ -115,9 +117,6 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
           animate="visible"
           className="mb-3"
         >
-          {/* <label className={styles.label} htmlFor="email">
-            EMAIL
-          </label> */}
           <motion.input
             type="email"
             name="email"
@@ -129,7 +128,7 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
               errors.email && touched.email ? "border-red-500 " : ""
             } ${
               styles.input
-            } w-full px-3 py-2 md:px-4 md:py-3 rounded-md border focus:outline-none focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white`}
+            } w-full px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500`}
             variants={inputFieldVariants}
           />
           <AnimatePresence>
@@ -152,9 +151,6 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
           animate="visible"
           className="mb-3 relative"
         >
-          {/* <label className={styles.label} htmlFor="password">
-            PASSWORD
-          </label> */}
           <div className="relative flex items-center">
             <motion.input
               type={!show ? "password" : "text"}
@@ -167,7 +163,7 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
                 errors.password && touched.password ? "border-red-500 " : ""
               } ${
                 styles.input
-              } w-full px-3 py-2 md:px-4 md:py-3 rounded-md border focus:outline-none focus:border-blue-500 pr-10 md:pr-12 bg-white dark:bg-gray-800 text-gray-800 dark:text-white`}
+              } w-full px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500 pr-10`}
               variants={inputFieldVariants}
             />
             <AnimatePresence>
@@ -177,7 +173,7 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className="absolute right-2 md:right-4 cursor-pointer"
+                className="absolute right-2 cursor-pointer"
               >
                 {show ? (
                   <AiOutlineEye
@@ -214,30 +210,28 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
           variants={buttonVariants}
           whileHover="hover"
           whileTap="tap"
-          className={`${styles.button} w-full`}
+          className={`${styles.buttonIcon} w-full`}
         >
           Sign In
         </motion.button>
         <div className="text-center mt-3">
-          <h5 className="text-xs md:text-sm font-Poppins text-gray-500 dark:text-gray-400">
+          <h5 className="text-xs md:text-sm font-Poppins text-gray-500">
             Or sign in with
           </h5>
           <div className="flex item-center justify-center mt-2">
-            {/* Google Icon */}
             <FcGoogle
               size={40}
-              className={`${styles.buttonIcon} w-half text-black cursor-pointer mr-1  transform transition-transform hover:scale-110`}
+              className={`${styles.buttonIcon} text-black cursor-pointer mr-1 transform hover:scale-110`}
               onClick={() => signIn("google")}
             />
-            {/* GitHub Icon */}
             <AiFillGithub
               size={40}
-              className={`${styles.buttonIcon} w-full text-black cursor-pointer ml-2 transform transition-transform hover:scale-110`}
+              className={`${styles.buttonIcon} text-black cursor-pointer ml-2 transform hover:scale-110`}
               onClick={() => signIn("github")}
             />
           </div>
         </div>
-        <h5 className="text-center  text-black dark:text-white pt-2 font-Poppins text-xs md:text-sm">
+        <h5 className="text-center text-black pt-2 font-Poppins text-xs md:text-sm">
           Don't have an account?{" "}
           <span
             className="text-[#2190ff] pl-1 cursor-pointer"

@@ -18,14 +18,12 @@ const Hero: FC<HeroProps> = () => {
 
   return (
     <motion.div className=" dark:bg-black bg-white grid grid-cols-1 md:grid-cols-2 h-screen">
-     
       <motion.div className="relative z-10 flex flex-col justify-center items-center text-white text-center p-4 md:p-8">
         <motion.h1
           {...fadeInUp}
           transition={{ delay: 0.5, duration: 1, ease: "easeInOut" }}
-          className="animation-container text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold mb-8 -mt-32 leading-tight text-purple-300"
+          className="hover-2 animation-container text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold  mb-8 -mt-32 leading-tight text-purple-300"
         >
-          
           Embrace the Unconventional, <br /> Ignite Imaginations
         </motion.h1>
         <motion.p
@@ -39,7 +37,7 @@ const Hero: FC<HeroProps> = () => {
           {...fadeInUp}
           transition={{ delay: 1.5, duration: 0.5, ease: "easeInOut" }}
           href="/courses"
-          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-8 rounded-full text-md sm:text-xl md:text-2xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition duration-300 inline-block mb-8"
+          className=" bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-8 rounded-full text-md sm:text-xl md:text-2xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition duration-300 inline-block mb-8"
         >
           Hi Experience the Future
         </motion.a>
