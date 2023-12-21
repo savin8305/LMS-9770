@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import React, { useEffect, useState } from "react";
+import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import Link from "next/link";
+import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -15,8 +15,11 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+
 import profileImage from "../../../../public/client-3.webp";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import Link from "next/link";
 interface ItemProps {
   title: string;
   to: string;
@@ -43,25 +46,57 @@ const Item: React.FC<ItemProps> = ({
     >
       <Typography className="text-black dark:text-white">{title}</Typography>
       <Link href={to} passHref={true} legacyBehavior={true}>
-        <a>{/* Your link content here */}</a>
+        <a></a>
       </Link>
     </MenuItem>
   );
 };
-
-const AdminSidebar = () => {
+const Sidebar: React.FC = () => {
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const { user } = useSelector((state: any) => state.auth);
+  const [logout, setlogout] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) {
+    return null;
+  }
+  const logOutHandler = () => {
+    setlogout(true);
+  };
 
   return (
-    <Box className="text-black dark:text-white">
-      <Sidebar className="text-black dark:text-white" collapsed={isCollapsed}>
-        <Menu className="bg-white dark:bg-slate-900">
+    <Box
+      sx={{
+        "& .pro-sidebar-inner": {
+          background: `${colors.primary[400]} !important`,
+        },
+        "& .pro-icon-wrapper": {
+          backgroundColor: "transparent !important",
+        },
+        "& .pro-inner-item": {
+          padding: "5px 35px 5px 20px !important",
+        },
+        "& .pro-inner-item:hover": {
+          color: "#868dfb !important",
+        },
+        "& .pro-menu-item.active": {
+          color: "#6870fa !important",
+        },
+      }}
+    >
+      <ProSidebar collapsed={isCollapsed}>
+        <Menu iconShape="square">
+          {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-black dark:text-white"
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            style={{
+              margin: "10px 0 20px 0",
+              color: colors.grey[100],
+            }}
           >
             {!isCollapsed && (
               <Box
@@ -70,8 +105,8 @@ const AdminSidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography className="text-black dark:text-white" variant="h3">
-                  ADMINIS
+                <Typography variant="h3" color={colors.grey[100]}>
+                  Elearning
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -81,27 +116,21 @@ const AdminSidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            <Box mb="25px" className="text-black dark:text-white">
+            <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image
-                  alt="profile-image"
-                  width={30}
-                  height={30}
-                  src={profileImage}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                  src={user.avatar.url}
+                  height={40}
+                  width={40}
+                  alt="user profile"
                 />
               </Box>
               <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  className="text-black dark:text-white"
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Ed Roh
+                <Typography variant="h5" color={colors.greenAccent[500]}>
+                  {user?.name}
                 </Typography>
-                <Typography className="text-black dark:text-white" variant="h5">
-                  VP Fancy Admin
+                <Typography variant="h5" color={colors.greenAccent[500]}>
+                  ~ {user?.role}
                 </Typography>
               </Box>
             </Box>
@@ -118,8 +147,8 @@ const AdminSidebar = () => {
 
             <Typography
               variant="h6"
+              color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
-              className="text-black dark:text-white"
             >
               Data
             </Typography>
@@ -146,8 +175,8 @@ const AdminSidebar = () => {
             />
 
             <Typography
-              className="text-black dark:text-white"
               variant="h6"
+              color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Pages
@@ -174,7 +203,11 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography variant="h6" sx={{ m: "15px 0 5px 20px" }}>
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
               Charts
             </Typography>
             <Item
@@ -207,9 +240,9 @@ const AdminSidebar = () => {
             />
           </Box>
         </Menu>
-      </Sidebar>
+      </ProSidebar>
     </Box>
   );
 };
 
-export default AdminSidebar;
+export default Sidebar;

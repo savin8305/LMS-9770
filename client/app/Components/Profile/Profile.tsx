@@ -4,7 +4,7 @@ import SideBarProfile from "./SideBarProfile";
 import { useLogOutQuery } from "../../../redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
 import ProfileInfo from "./ProfileInfo";
-import ChangePassword from "./ChangePassword"
+import ChangePassword from "./ChangePassword";
 import "./styles.css";
 import CertificatePage from "./CertiFicate";
 interface Props {
@@ -55,7 +55,12 @@ const Profile: FC<Props> = ({ user }) => {
           {[...Array(6)].map((_, index) => (
             <div key={index} className="circle"></div>
           ))}
-          <ProfileInfo avatar={avatar} user={user} name={name} setName={setName} />
+          <ProfileInfo
+            avatar={avatar}
+            user={user}
+            name={name}
+            setName={setName}
+          />
         </div>
       )}
       {active === 4 && (
@@ -63,18 +68,17 @@ const Profile: FC<Props> = ({ user }) => {
           {[...Array(6)].map((_, index) => (
             <div key={index} className="circle"></div>
           ))}
-          <CertificatePage  userName={name} courseName={'DSA'} />
+          <CertificatePage userName={name} courseName={"DSA"} />
         </div>
       )}
-       {active === 6 && (
+      {active === 6 && (
         <div className="fade-in-right animation-container w-full h-full bg-transparent mt-[80px]">
           {[...Array(6)].map((_, index) => (
             <div key={index} className="circle"></div>
           ))}
-          <ChangePassword/>
+          <ChangePassword />
         </div>
       )}
-      
     </div>
   );
 };
