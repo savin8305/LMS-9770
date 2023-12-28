@@ -6,7 +6,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography} from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./theme";
 import {
@@ -28,7 +28,7 @@ import profileImage from "../../../../public/client-3.webp";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-
+import { useTheme } from "next-themes";
 interface SidebarItemProps {
   title: string;
   to: string;
@@ -45,33 +45,28 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   setSelected,
 }) => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
   return (
     <MenuItem
       active={selected === title}
       onClick={() => setSelected(title)}
       icon={icon}
-      className="text-black dark:text-white transition-transform transform hover:scale-105"
     >
       <Typography className="text-black dark:text-white !text-[16px] !font-Poppins">
         {title}
       </Typography>
-      <Link href={to} passHref>
-      </Link>
+      <Link href={to} />
     </MenuItem>
   );
 };
 
 const Sidebar: React.FC = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const { user } = useSelector((state: any) => state.auth);
   const [logout, setLogout] = useState(false);
   const [mounted, setMounted] = useState(false);
-
+  const {theme,setTheme}=useTheme();
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
@@ -87,15 +82,13 @@ const Sidebar: React.FC = () => {
       sx={{
         "& .pro-sidebar-inner": {
           background:
-            theme.palette.mode === "dark" ? "#111c43 !important" : "#fff !important",
-          transition: "background 0.3s ease",
+            `${theme=== "dark" ?"#111c43":"#fff !important"}`
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
           padding: "5px 35px 5px 20px !important",
-          transition: "padding 0.3s ease",
         },
         "& .pro-inner-item:hover": {
           color: "#868dfb !important",
@@ -104,20 +97,28 @@ const Sidebar: React.FC = () => {
           color: "#6870fa !important",
         },
         "& .pro-menu-item": {
-          color: `${theme.palette.mode !== "dark" && "#000"}`,
+          color:`${theme ! == "dark" && "#000"}`
         },
       }}
+      className="!bg-white dark:bg-[#111c43]"
     >
-      <ProSidebar collapsed={isCollapsed} className="bg-white dark:bg-slate-900">
-        <Menu iconShape="square" className="bg-white dark:bg-slate-900">
+      <ProSidebar
+        collapsed={isCollapsed}
+        style={{
+          position:"fixed",
+          top:0,
+          left:0,
+          height:"100vh",
+          width: isCollapsed ? "0%" : "16%",
+        }}
+>
+        <Menu iconShape="square">
           <SidebarHeader>
             <MenuItem
               onClick={() => setIsCollapsed(!isCollapsed)}
               icon={isCollapsed ? <MenuIcon /> : undefined}
               style={{
                 margin: "10px 0 20px 0",
-                color: colors.grey[100],
-                transition: "color 0.3s ease",
               }}
             >
               {!isCollapsed && (
@@ -127,7 +128,10 @@ const Sidebar: React.FC = () => {
                   alignItems="center"
                   ml="15px"
                 >
-                  <Typography variant="h5" className="text-black dark:text-white">
+                  <Typography
+                    variant="h5"
+                    className="text-black dark:text-white"
+                  >
                     Elearning
                   </Typography>
                   <IconButton
@@ -149,6 +153,7 @@ const Sidebar: React.FC = () => {
                   height={40}
                   width={40}
                   alt="user profile"
+                  className="mt-5 rounded-full border border-primary-500"
                 />
               </Box>
               <Box textAlign="center">
@@ -160,7 +165,7 @@ const Sidebar: React.FC = () => {
                 </Typography>
                 <Typography
                   variant="h5"
-                  className="!text-[14px] text-amber-400 dark:text-[#ffffffc1] capitalize !font-[400]"
+                  className="!text-[14px] text-amber-900 dark:text-[#ffffffc1] capitalize !font-[400]"
                 >
                   ~ {user?.role}
                 </Typography>
