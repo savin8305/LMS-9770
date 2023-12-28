@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import {
+  ProSidebar,
+  Menu,
+  MenuItem,
+  SidebarHeader,
+  SidebarFooter,
+} from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import {
+  HomeOutlined as HomeIcon,
+  PeopleOutlined as PeopleIcon,
+  ContactsOutlined as ContactsIcon,
+  ReceiptOutlined as ReceiptIcon,
+  PersonOutlined as PersonIcon,
+  CalendarTodayOutlined as CalendarIcon,
+  HelpOutlineOutlined as HelpIcon,
+  BarChartOutlined as BarChartIcon,
+  PieChartOutlineOutlined as PieChartIcon,
+  TimelineOutlined as TimelineIcon,
+  MenuOutlined as MenuIcon,
+  MapOutlined as MapIcon,
+} from "@mui/icons-material";
 
 import profileImage from "../../../../public/client-3.webp";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-interface ItemProps {
+
+interface SidebarItemProps {
   title: string;
   to: string;
   icon: JSX.Element;
@@ -28,7 +37,7 @@ interface ItemProps {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Item: React.FC<ItemProps> = ({
+const SidebarItem: React.FC<SidebarItemProps> = ({
   title,
   to,
   icon,
@@ -37,47 +46,56 @@ const Item: React.FC<ItemProps> = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <MenuItem
       active={selected === title}
       onClick={() => setSelected(title)}
       icon={icon}
-      className="text-black dark:text-white"
+      className="text-black dark:text-white transition-transform transform hover:scale-105"
     >
-      <Typography className="text-black dark:text-white">{title}</Typography>
-      <Link href={to} passHref={true} legacyBehavior={true}>
-        <a></a>
+      <Typography className="text-black dark:text-white !text-[16px] !font-Poppins">
+        {title}
+      </Typography>
+      <Link href={to} passHref>
       </Link>
     </MenuItem>
   );
 };
+
 const Sidebar: React.FC = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const { user } = useSelector((state: any) => state.auth);
-  const [logout, setlogout] = useState(false);
+  const [logout, setLogout] = useState(false);
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => setMounted(true), []);
+
   if (!mounted) {
     return null;
   }
+
   const logOutHandler = () => {
-    setlogout(true);
+    setLogout(true);
   };
 
   return (
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background:
+            theme.palette.mode === "dark" ? "#111c43 !important" : "#fff !important",
+          transition: "background 0.3s ease",
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
           padding: "5px 35px 5px 20px !important",
+          transition: "padding 0.3s ease",
         },
         "& .pro-inner-item:hover": {
           color: "#868dfb !important",
@@ -85,35 +103,43 @@ const Sidebar: React.FC = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
+        "& .pro-menu-item": {
+          color: `${theme.palette.mode !== "dark" && "#000"}`,
+        },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-              color: colors.grey[100],
-            }}
-          >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  Elearning
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem>
+      <ProSidebar collapsed={isCollapsed} className="bg-white dark:bg-slate-900">
+        <Menu iconShape="square" className="bg-white dark:bg-slate-900">
+          <SidebarHeader>
+            <MenuItem
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              icon={isCollapsed ? <MenuIcon /> : undefined}
+              style={{
+                margin: "10px 0 20px 0",
+                color: colors.grey[100],
+                transition: "color 0.3s ease",
+              }}
+            >
+              {!isCollapsed && (
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  ml="15px"
+                >
+                  <Typography variant="h5" className="text-black dark:text-white">
+                    Elearning
+                  </Typography>
+                  <IconButton
+                    className="text-black dark:text-white"
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Box>
+              )}
+            </MenuItem>
+          </SidebarHeader>
 
           {!isCollapsed && (
             <Box mb="25px">
@@ -126,10 +152,16 @@ const Sidebar: React.FC = () => {
                 />
               </Box>
               <Box textAlign="center">
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography
+                  variant="h5"
+                  className="!text-[14px] text-orange-400 dark:text-orange-400 capitalize !font-[400]"
+                >
                   {user?.name}
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography
+                  variant="h5"
+                  className="!text-[14px] text-amber-400 dark:text-[#ffffffc1] capitalize !font-[400]"
+                >
                   ~ {user?.role}
                 </Typography>
               </Box>
@@ -137,109 +169,111 @@ const Sidebar: React.FC = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Dashboard"
+            <SidebarItem
+              title="Home Page"
               to="/"
-              icon={<HomeOutlinedIcon />}
+              icon={<HomeIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              className="text-black dark:text-white"
+              sx={{ m: "10px 0 5px 20px" }}
             >
               Data
             </Typography>
-            <Item
+            <SidebarItem
               title="Manage Team"
               to="/team"
-              icon={<PeopleOutlinedIcon />}
+              icon={<PeopleIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            <SidebarItem
               title="Contacts Information"
               to="/contacts"
-              icon={<ContactsOutlinedIcon />}
+              icon={<ContactsIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            <SidebarItem
               title="Invoices Balances"
               to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
+              icon={<ReceiptIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              className="text-black dark:text-white"
               sx={{ m: "15px 0 5px 20px" }}
             >
               Pages
             </Typography>
-            <Item
+            <SidebarItem
               title="Profile Form"
               to="/form"
-              icon={<PersonOutlinedIcon />}
+              icon={<PersonIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            <SidebarItem
               title="Calendar"
               to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
+              icon={<CalendarIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            <SidebarItem
               title="FAQ Page"
               to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
+              icon={<HelpIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              className="text-black dark:text-white"
               sx={{ m: "15px 0 5px 20px" }}
             >
               Charts
             </Typography>
-            <Item
+            <SidebarItem
               title="Bar Chart"
               to="/bar"
-              icon={<BarChartOutlinedIcon />}
+              icon={<BarChartIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            <SidebarItem
               title="Pie Chart"
               to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
+              icon={<PieChartIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            <SidebarItem
               title="Line Chart"
               to="/line"
-              icon={<TimelineOutlinedIcon />}
+              icon={<TimelineIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            <SidebarItem
               title="Geography Chart"
               to="/geography"
-              icon={<MapOutlinedIcon />}
+              icon={<MapIcon />}
               selected={selected}
               setSelected={setSelected}
             />
           </Box>
         </Menu>
+
+        <SidebarFooter>{/* Add any footer content here */}</SidebarFooter>
       </ProSidebar>
     </Box>
   );

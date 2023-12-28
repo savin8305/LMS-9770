@@ -26,11 +26,14 @@ const Topbar: React.FC = () => {
             <div className="dark:bg-gray-800 bg-gray-100 font-Poppins border-b dark:border-b-gray-700 border-b-gray-300 rounded-t-lg overflow-hidden">
               <div className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white rounded-t-lg">
                 <p className="text-2xl font-extrabold">New Question Received</p>
-                <button className="cursor-pointer text-sm underline transition transform hover:scale-105">Mark as read</button>
+                <button className="cursor-pointer text-sm underline transition transform hover:scale-105">
+                  Mark as read
+                </button>
               </div>
 
               <p className="px-4 text-gray-700 dark:text-white leading-6 mt-2">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt, sequi! Tempore libero omnis et, ea beatae ut, itaque.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                Deserunt, sequi! Tempore libero omnis et, ea beatae ut, itaque.
               </p>
 
               <div className="p-4 flex justify-between items-center mt-4">
@@ -39,11 +42,17 @@ const Topbar: React.FC = () => {
                     JD
                   </div>
                   <div className="ml-4">
-                    <p className="text-lg font-semibold text-gray-800 dark:text-white transition transform hover:underline">John Doe</p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">Product Manager</p>
+                    <p className="text-lg font-semibold text-gray-800 dark:text-white transition transform hover:underline">
+                      John Doe
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      Product Manager
+                    </p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-800 dark:text-white opacity-70">5 days ago</p>
+                <p className="text-sm text-gray-800 dark:text-white opacity-70">
+                  5 days ago
+                </p>
               </div>
             </div>
           </div>
