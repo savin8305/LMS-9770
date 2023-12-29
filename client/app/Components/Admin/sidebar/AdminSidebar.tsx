@@ -6,7 +6,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "react-pro-sidebar";
-import { Box, IconButton, Typography} from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./theme";
 import {
@@ -22,6 +22,8 @@ import {
   TimelineOutlined as TimelineIcon,
   MenuOutlined as MenuIcon,
   MapOutlined as MapIcon,
+  GolfCourse,
+  OnlinePredictionOutlined,
 } from "@mui/icons-material";
 
 import profileImage from "../../../../public/client-3.webp";
@@ -55,7 +57,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       <Typography className="text-black dark:text-white !text-[16px] !font-Poppins">
         {title}
       </Typography>
-      <Link href={to} />
+      <Link href={`/admin${to}`} />
     </MenuItem>
   );
 };
@@ -66,7 +68,7 @@ const Sidebar: React.FC = () => {
   const { user } = useSelector((state: any) => state.auth);
   const [logout, setLogout] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const {theme,setTheme}=useTheme();
+  const { theme, setTheme } = useTheme();
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
@@ -81,8 +83,7 @@ const Sidebar: React.FC = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background:
-            `${theme=== "dark" ?"#111c43":"#fff !important"}`
+          background: `${theme === "dark" ? "#111c43" : "#fff !important"}`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -97,7 +98,7 @@ const Sidebar: React.FC = () => {
           color: "#6870fa !important",
         },
         "& .pro-menu-item": {
-          color:`${theme ! == "dark" && "#000"}`
+          color: `${theme! == "dark" && "#000"}`,
         },
       }}
       className="!bg-white dark:bg-[#111c43]"
@@ -105,13 +106,13 @@ const Sidebar: React.FC = () => {
       <ProSidebar
         collapsed={isCollapsed}
         style={{
-          position:"fixed",
-          top:0,
-          left:0,
-          height:"100vh",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          height: "100vh",
           width: isCollapsed ? "0%" : "16%",
         }}
->
+      >
         <Menu iconShape="square">
           <SidebarHeader>
             <MenuItem
@@ -190,6 +191,13 @@ const Sidebar: React.FC = () => {
               Data
             </Typography>
             <SidebarItem
+              title="Create-Course"
+              to="/create-course"
+              icon={<OnlinePredictionOutlined/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <SidebarItem
               title="Manage Team"
               to="/team"
               icon={<PeopleIcon />}
@@ -239,7 +247,6 @@ const Sidebar: React.FC = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               className="text-black dark:text-white"
@@ -277,8 +284,7 @@ const Sidebar: React.FC = () => {
             />
           </Box>
         </Menu>
-
-        <SidebarFooter>{/* Add any footer content here */}</SidebarFooter>
+        <SidebarFooter></SidebarFooter>
       </ProSidebar>
     </Box>
   );
