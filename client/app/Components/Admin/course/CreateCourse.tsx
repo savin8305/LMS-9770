@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CourseInfo from "./CourseInfo";
 import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
+import CourseContent from "./CourseContent";
 
 type Props = {};
 
@@ -37,6 +38,9 @@ const CreateCourse: React.FC<Props> = (props) => {
     },
   ]);
   const [courseData, setCourseData] = useState({});
+  const handleCourseSubmit=async ()=>{
+
+  }
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">
@@ -56,6 +60,15 @@ const CreateCourse: React.FC<Props> = (props) => {
             setPrerequisites={setPrerequisites}
             active={active}
             setActive={setActive}
+          />
+        )}
+        {active === 2 && (
+          <CourseContent
+          active={active}
+          setActive={setActive}
+          courseContentData={courseContentData}
+          setCourseContentData={setCourseContentData}
+          handleSubmit={handleCourseSubmit}
           />
         )}
       </div>
