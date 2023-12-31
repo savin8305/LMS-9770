@@ -1,11 +1,14 @@
+// Importing React and necessary icons
 import React, { FC, useState } from "react";
 import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { BsLink45Deg, BsPencil } from "react-icons/bs";
 
+// Importing styles and toast
 import { styles } from "@/app/styles/styles"; // Adjust the path based on your project structure
 import toast from "react-hot-toast";
 
+// Defining types for link and course item
 type Link = {
   title: string;
   url: string;
@@ -17,33 +20,39 @@ type CourseItem = {
   videoUrl: string;
   description: string;
   links: Link[];
+  suggestion: string;
 };
 
+// Defining props for CourseContent component
 type Props = {
   active: number;
   setActive: (active: number) => void;
   courseContentData: CourseItem[];
   setCourseContentData: (courseContentData: CourseItem[]) => void;
-  handleSubmit: () => void;
+  handleCourseSubmit: () => void;
 };
 
+// CourseContent component
 const CourseContent: FC<Props> = ({
   courseContentData,
   setCourseContentData,
   active,
   setActive,
-  handleSubmit,
+  handleCourseSubmit,
 }) => {
+  // State for managing collapsed state
   const [isCollapsed, setIsCollapsed] = useState<boolean[]>(
     Array(courseContentData.length).fill(false)
   );
 
+  // Function to add a new link
   const handleAddLink = (index: number) => {
     const updatedData = [...courseContentData];
     updatedData[index].links.push({ title: "", url: "" });
     setCourseContentData(updatedData);
   };
 
+  // Function to toggle collapse state
   const handleCollapseToggle = (index: number) => {
     setIsCollapsed((prev) => {
       const updatedCollapseState = [...prev];
@@ -52,13 +61,15 @@ const CourseContent: FC<Props> = ({
     });
   };
 
+  // Function to remove a link
   const handleRemovalLink = (index: number, linkIndex: number) => {
     const updatedData = [...courseContentData];
     updatedData[index].links.splice(linkIndex, 1);
     setCourseContentData(updatedData);
   };
 
-  const newContentHandler = (item: CourseItem) => {
+  // Function to handle new content addition
+  const newContentHandler = (item: any) => {
     // Placeholder implementation for adding new content
     if (
       item.title === "" ||
@@ -69,22 +80,14 @@ const CourseContent: FC<Props> = ({
     ) {
       toast.error("Please fill all the fields first");
     } else {
-      let newVideoSection = "";
-      if (courseContentData.length > 0) {
-        const lastVideoSection =
-          courseContentData[courseContentData.length - 1].videoSection;
-        newVideoSection = lastVideoSection || item.videoSection;
-      } else {
-        newVideoSection = item.videoSection;
-      }
-
       // Create new content
-      const newContent: CourseItem = {
-        videoSection: newVideoSection,
+      const newContent = {
+        videoSection: `Untitled Section ${active + 1}`, // Use active + 1 here
         title: "New Title",
         videoUrl: "",
         description: "",
         links: [{ title: "", url: "" }],
+        suggestion: "", // Added suggestion property
       };
 
       // Update course content data
@@ -92,9 +95,61 @@ const CourseContent: FC<Props> = ({
     }
   };
 
+  // State for managing the active section number
+  const [activeSection, setActiveSection] = useState(1);
+
+  // Function to add a new section
+  const addNewSection = () => {
+    const lastSection = courseContentData[courseContentData.length - 1];
+
+    if (
+      lastSection.title === "" ||
+      lastSection.description === "" ||
+      lastSection.videoUrl === "" ||
+      lastSection.links[0].title === "" ||
+      lastSection.links[0].url === ""
+    ) {
+      toast.error("Please fill all the fields first!");
+    } else {
+      setActiveSection(activeSection + 1);
+      const newContent = {
+        videoSection: `Untitled Section ${activeSection}`, // Use activeSection here
+        title: "New Title",
+        videoUrl: "",
+        description: "",
+        links: [{ title: "", url: "" }],
+        suggestion: "", // Added suggestion property
+      };
+      setCourseContentData([...courseContentData, newContent]);
+    }
+  };
+
+  const handlePrevious = () => {
+    // Navigate to the previous option
+    setActive(active - 1);
+  };
+
+  const handleNext = () => {
+    const lastSection = courseContentData[courseContentData.length - 1];
+
+    if (
+      lastSection.title === "" ||
+      lastSection.description === "" ||
+      lastSection.videoUrl === "" ||
+      lastSection.links[0].title === "" ||
+      lastSection.links[0].url === ""
+    ) {
+      toast.error("Please fill all the fields first!");
+    } else {
+      setActive(active + 1);
+      handleCourseSubmit();
+    }
+  };
+
   return (
     <div className="w-[80%] m-auto mt-24 p-3">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleCourseSubmit}>
+        {/* Mapping through course content data */}
         {courseContentData.map((item, index) => (
           <div
             key={index}
@@ -109,6 +164,7 @@ const CourseContent: FC<Props> = ({
             {index === 0 ||
             item.videoSection !== courseContentData[index - 1].videoSection ? (
               <div className="flex items-center">
+                {/* Input for Video Section */}
                 <input
                   type="text"
                   className={`text-[20px] ${
@@ -123,6 +179,7 @@ const CourseContent: FC<Props> = ({
                     setCourseContentData(updatedData);
                   }}
                 />
+                {/* Pencil icon for editing */}
                 <BsPencil className="ml-2 cursor-pointer dark:text-white text-black" />
               </div>
             ) : null}
@@ -173,6 +230,7 @@ const CourseContent: FC<Props> = ({
                 <div className="my-3">
                   <label className={styles.label}>Video Title</label>
                   <div className="flex items-center">
+                    {/* Input for Video Title */}
                     <input
                       type="text"
                       placeholder="Project Plan..."
@@ -191,6 +249,7 @@ const CourseContent: FC<Props> = ({
                 <div className="mb-3">
                   <label className={styles.label}>Video Url</label>
                   <div className="flex items-center">
+                    {/* Input for Video URL */}
                     <input
                       type="text"
                       placeholder="sdder"
@@ -240,6 +299,7 @@ const CourseContent: FC<Props> = ({
                         }
                       />
                     </div>
+                    {/* Input for Link Title */}
                     <input
                       type="text"
                       placeholder="Source Code... (Link title)"
@@ -252,6 +312,7 @@ const CourseContent: FC<Props> = ({
                         setCourseContentData(updatedData);
                       }}
                     />
+                    {/* Input for Link URL */}
                     <input
                       type="url"
                       placeholder="Source Code Url... (Link URL)"
@@ -285,7 +346,32 @@ const CourseContent: FC<Props> = ({
         >
           <AiOutlinePlusCircle className="mr-2" /> Add New Content
         </div>
+        <br />
+        {/* Add New Section Button */}
+        <div
+          className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
+          onClick={() => addNewSection()}
+        >
+          <AiOutlinePlusCircle className="mr-2" /> Add new Section
+        </div>
+        <br />
       </form>
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={handlePrevious}
+          disabled={active === 0}
+          className="bg-blue-500 text-white px-4 py-2 rounded mr-4"
+        >
+          Previous
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={active === 3} // Assuming there are 4 options (0 to 3)
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

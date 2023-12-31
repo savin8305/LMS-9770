@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CourseInfo from "./CourseInfo";
 import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
@@ -7,7 +7,7 @@ import CourseContent from "./CourseContent";
 type Props = {};
 
 const CreateCourse: React.FC<Props> = (props) => {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
 
   const [courseInfo, setCourseInfo] = useState({
     name: "",
@@ -38,9 +38,53 @@ const CreateCourse: React.FC<Props> = (props) => {
     },
   ]);
   const [courseData, setCourseData] = useState({});
-  const handleCourseSubmit=async ()=>{
 
-  }
+  const handleCourseSubmit = async () => {
+    const formattedBenefits = benefits.map((benefit) => ({
+      title: benefit.title,
+    }));
+
+    // Format prerequisites array
+    const formattedPrerequisites = prerequisites.map((prerequisite) => ({
+      title: prerequisite.title,
+    }));
+
+    // Format course content array
+    const formattedCourseContentData = courseContentData.map(
+      (courseContent) => ({
+        videoUrl: courseContent.videoUrl,
+        title: courseContent.title,
+        description: courseContent.description,
+        videoSection: courseContent.videoSection,
+        links: courseContent.links.map((link) => ({
+          title: link.title,
+          url: link.url,
+        })),
+      })
+    );
+
+    // Prepare our data object
+    const data = {
+      name: courseInfo.name,
+      description: courseInfo.description,
+      price: courseInfo.price,
+      estimatedPrice: courseInfo.estimatedPrice,
+      tags: courseInfo.tags,
+      thumbnail: courseInfo.thumbnail,
+      level: courseInfo.level,
+      demoUrl: courseInfo.demoUrl,
+      totalVideos: courseContentData.length,
+      benefits: formattedBenefits,
+      prerequisites: formattedPrerequisites,
+      courseContent: formattedCourseContentData,
+    };
+
+    setCourseData(data);
+    console.log(courseData);
+
+  };
+
+
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">
@@ -64,11 +108,11 @@ const CreateCourse: React.FC<Props> = (props) => {
         )}
         {active === 2 && (
           <CourseContent
-          active={active}
-          setActive={setActive}
-          courseContentData={courseContentData}
-          setCourseContentData={setCourseContentData}
-          handleSubmit={handleCourseSubmit}
+            active={active}
+            setActive={setActive}
+            courseContentData={courseContentData}
+            setCourseContentData={setCourseContentData}
+            handleCourseSubmit={handleCourseSubmit}
           />
         )}
       </div>
