@@ -3,32 +3,15 @@ import React, { FC, useState } from "react";
 import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { BsLink45Deg, BsPencil } from "react-icons/bs";
-
-// Importing styles and toast
 import { styles } from "@/app/styles/styles"; // Adjust the path based on your project structure
 import toast from "react-hot-toast";
-
-// Defining types for link and course item
-type Link = {
-  title: string;
-  url: string;
-};
-
-type CourseItem = {
-  videoSection: string;
-  title: string;
-  videoUrl: string;
-  description: string;
-  links: Link[];
-  suggestion: string;
-};
 
 // Defining props for CourseContent component
 type Props = {
   active: number;
   setActive: (active: number) => void;
-  courseContentData: CourseItem[];
-  setCourseContentData: (courseContentData: CourseItem[]) => void;
+  courseContentData: any;
+  setCourseContentData: (courseContentData: any[]) => void;
   handleCourseSubmit: () => void;
 };
 
@@ -40,19 +23,16 @@ const CourseContent: FC<Props> = ({
   setActive,
   handleCourseSubmit,
 }) => {
-  // State for managing collapsed state
-  const [isCollapsed, setIsCollapsed] = useState<boolean[]>(
+  const [isCollapsed, setIsCollapsed] = useState(
     Array(courseContentData.length).fill(false)
   );
 
-  // Function to add a new link
   const handleAddLink = (index: number) => {
     const updatedData = [...courseContentData];
     updatedData[index].links.push({ title: "", url: "" });
     setCourseContentData(updatedData);
   };
 
-  // Function to toggle collapse state
   const handleCollapseToggle = (index: number) => {
     setIsCollapsed((prev) => {
       const updatedCollapseState = [...prev];
@@ -61,16 +41,13 @@ const CourseContent: FC<Props> = ({
     });
   };
 
-  // Function to remove a link
   const handleRemovalLink = (index: number, linkIndex: number) => {
     const updatedData = [...courseContentData];
     updatedData[index].links.splice(linkIndex, 1);
     setCourseContentData(updatedData);
   };
 
-  // Function to handle new content addition
   const newContentHandler = (item: any) => {
-    // Placeholder implementation for adding new content
     if (
       item.title === "" ||
       item.description === "" ||
@@ -80,25 +57,20 @@ const CourseContent: FC<Props> = ({
     ) {
       toast.error("Please fill all the fields first");
     } else {
-      // Create new content
       const newContent = {
-        videoSection: `Untitled Section ${active + 1}`, // Use active + 1 here
+        videoSection: `Untitled Section ${active + 1}`,
         title: "New Title",
         videoUrl: "",
         description: "",
         links: [{ title: "", url: "" }],
-        suggestion: "", // Added suggestion property
       };
 
-      // Update course content data
       setCourseContentData([...courseContentData, newContent]);
     }
   };
 
-  // State for managing the active section number
   const [activeSection, setActiveSection] = useState(1);
 
-  // Function to add a new section
   const addNewSection = () => {
     const lastSection = courseContentData[courseContentData.length - 1];
 
@@ -113,19 +85,17 @@ const CourseContent: FC<Props> = ({
     } else {
       setActiveSection(activeSection + 1);
       const newContent = {
-        videoSection: `Untitled Section ${activeSection}`, // Use activeSection here
+        videoSection: `Untitled Section ${activeSection}`,
         title: "New Title",
         videoUrl: "",
         description: "",
         links: [{ title: "", url: "" }],
-        suggestion: "", // Added suggestion property
       };
       setCourseContentData([...courseContentData, newContent]);
     }
   };
 
   const handlePrevious = () => {
-    // Navigate to the previous option
     setActive(active - 1);
   };
 
@@ -142,15 +112,16 @@ const CourseContent: FC<Props> = ({
       toast.error("Please fill all the fields first!");
     } else {
       setActive(active + 1);
-      handleCourseSubmit();
+      setTimeout(() => {
+        handleCourseSubmit();
+      });
     }
   };
 
   return (
     <div className="w-[80%] m-auto mt-24 p-3">
       <form onSubmit={handleCourseSubmit}>
-        {/* Mapping through course content data */}
-        {courseContentData.map((item, index) => (
+        {courseContentData.map((item: any, index: number) => (
           <div
             key={index}
             className={`w-full bg-[#cdc8c817] p-4 ${
@@ -160,11 +131,9 @@ const CourseContent: FC<Props> = ({
                 : "mb-0"
             }`}
           >
-            {/* Video Section Input */}
             {index === 0 ||
             item.videoSection !== courseContentData[index - 1].videoSection ? (
               <div className="flex items-center">
-                {/* Input for Video Section */}
                 <input
                   type="text"
                   className={`text-[20px] ${
@@ -179,12 +148,10 @@ const CourseContent: FC<Props> = ({
                     setCourseContentData(updatedData);
                   }}
                 />
-                {/* Pencil icon for editing */}
                 <BsPencil className="ml-2 cursor-pointer dark:text-white text-black" />
               </div>
             ) : null}
 
-            {/* Title and Collapse Section */}
             <div className="flex w-full items-center justify-between my-0">
               {isCollapsed[index] ? (
                 item.title && (
@@ -196,7 +163,6 @@ const CourseContent: FC<Props> = ({
                 <div></div>
               )}
               <div className="flex items-center">
-                {/* Delete button */}
                 <AiOutlineDelete
                   className={`dark:text-white text-[20px] mr-2 ☐ text-black ${
                     index > 0 ? "cursor-pointer" : "cursor-no-drop"
@@ -209,7 +175,6 @@ const CourseContent: FC<Props> = ({
                     }
                   }}
                 />
-                {/* Arrow button */}
                 <MdOutlineKeyboardArrowDown
                   fontSize="large"
                   className="dark:text-white ☐ text-black"
@@ -223,14 +188,11 @@ const CourseContent: FC<Props> = ({
               </div>
             </div>
 
-            {/* Expanded Content */}
             {!isCollapsed[index] ? (
               <>
-                {/* Video Title Input */}
                 <div className="my-3">
                   <label className={styles.label}>Video Title</label>
                   <div className="flex items-center">
-                    {/* Input for Video Title */}
                     <input
                       type="text"
                       placeholder="Project Plan..."
@@ -245,11 +207,9 @@ const CourseContent: FC<Props> = ({
                   </div>
                 </div>
 
-                {/* Video URL Input */}
                 <div className="mb-3">
                   <label className={styles.label}>Video Url</label>
                   <div className="flex items-center">
-                    {/* Input for Video URL */}
                     <input
                       type="text"
                       placeholder="sdder"
@@ -264,7 +224,6 @@ const CourseContent: FC<Props> = ({
                   </div>
                 </div>
 
-                {/* Description Textarea */}
                 <div className="mb-3">
                   <label className={styles.label}>Description</label>
                   <textarea
@@ -281,8 +240,7 @@ const CourseContent: FC<Props> = ({
                   />
                 </div>
 
-                {/* Links Section */}
-                {item?.links.map((link: Link, linkIndex: number) => (
+                {item?.links.map((link: any, linkIndex: number) => (
                   <div className="mb-3 block" key={linkIndex}>
                     <div className="w-full flex items-center justify-between">
                       <label className={styles.label}>
@@ -290,7 +248,9 @@ const CourseContent: FC<Props> = ({
                       </label>
                       <AiOutlineDelete
                         className={`${
-                          linkIndex === 0 ? "cursor-no-drop" : "cursor-pointer"
+                          linkIndex === 0
+                            ? "cursor-no-drop"
+                            : "cursor-pointer"
                         } text-black dark:text-white text-[20px]`}
                         onClick={() =>
                           linkIndex === 0
@@ -299,7 +259,6 @@ const CourseContent: FC<Props> = ({
                         }
                       />
                     </div>
-                    {/* Input for Link Title */}
                     <input
                       type="text"
                       placeholder="Source Code... (Link title)"
@@ -312,7 +271,6 @@ const CourseContent: FC<Props> = ({
                         setCourseContentData(updatedData);
                       }}
                     />
-                    {/* Input for Link URL */}
                     <input
                       type="url"
                       placeholder="Source Code Url... (Link URL)"
@@ -328,7 +286,6 @@ const CourseContent: FC<Props> = ({
                   </div>
                 ))}
 
-                {/* Add Link Button */}
                 <div
                   className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
                   onClick={() => handleAddLink(index)}
@@ -339,7 +296,6 @@ const CourseContent: FC<Props> = ({
             ) : null}
           </div>
         ))}
-        {/* Add New Content Button */}
         <div
           className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
           onClick={() => newContentHandler(courseContentData[0])}
@@ -347,7 +303,6 @@ const CourseContent: FC<Props> = ({
           <AiOutlinePlusCircle className="mr-2" /> Add New Content
         </div>
         <br />
-        {/* Add New Section Button */}
         <div
           className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
           onClick={() => addNewSection()}
@@ -366,7 +321,7 @@ const CourseContent: FC<Props> = ({
         </button>
         <button
           onClick={handleNext}
-          disabled={active === 3} // Assuming there are 4 options (0 to 3)
+          disabled={active === 3}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Next

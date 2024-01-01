@@ -7,8 +7,7 @@ import CourseContent from "./CourseContent";
 type Props = {};
 
 const CreateCourse: React.FC<Props> = (props) => {
-  const [active, setActive] = useState(0);
-
+  const [active, setActive] = useState(2);
   const [courseInfo, setCourseInfo] = useState({
     name: "",
     description: "",
@@ -19,7 +18,6 @@ const CreateCourse: React.FC<Props> = (props) => {
     demoUrl: "",
     thumbnail: "",
   });
-
   const [benefits, setBenefits] = useState([{ title: "" }]);
   const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
   const [courseContentData, setCourseContentData] = useState([
@@ -32,24 +30,23 @@ const CreateCourse: React.FC<Props> = (props) => {
         {
           title: "",
           url: "",
-          suggestion: "",
         },
       ],
+      suggestion: "",
     },
   ]);
   const [courseData, setCourseData] = useState({});
+
 
   const handleCourseSubmit = async () => {
     const formattedBenefits = benefits.map((benefit) => ({
       title: benefit.title,
     }));
 
-    // Format prerequisites array
     const formattedPrerequisites = prerequisites.map((prerequisite) => ({
       title: prerequisite.title,
     }));
 
-    // Format course content array
     const formattedCourseContentData = courseContentData.map(
       (courseContent) => ({
         videoUrl: courseContent.videoUrl,
@@ -60,10 +57,10 @@ const CreateCourse: React.FC<Props> = (props) => {
           title: link.title,
           url: link.url,
         })),
+        suggestion:courseContent.suggestion,
       })
     );
 
-    // Prepare our data object
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
@@ -80,10 +77,17 @@ const CreateCourse: React.FC<Props> = (props) => {
     };
 
     setCourseData(data);
-    console.log(courseData);
 
+    try {
+      // Replace the following line with your actual API request
+      // const response = await api.post('/submit-course', data);
+      console.log("Formatted Course Data:", data, courseData);
+      // Optionally, reset the form or perform other actions after submission
+    } catch (error) {
+      console.error("Error submitting course:", error);
+      // Handle errors, show error messages, etc.
+    }
   };
-
 
   return (
     <div className="w-full flex min-h-screen">
