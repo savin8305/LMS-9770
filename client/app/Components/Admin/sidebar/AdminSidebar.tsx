@@ -150,7 +150,7 @@ const Sidebar: React.FC = () => {
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image
-                  src={user.avatar.url}
+                  src={user.avatar || profileImage}
                   height={40}
                   width={40}
                   alt="user profile"

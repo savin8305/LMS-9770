@@ -37,7 +37,6 @@ const CreateCourse: React.FC<Props> = (props) => {
   ]);
   const [courseData, setCourseData] = useState({});
 
-
   const handleCourseSubmit = async () => {
     const formattedBenefits = benefits.map((benefit) => ({
       title: benefit.title,
@@ -57,7 +56,7 @@ const CreateCourse: React.FC<Props> = (props) => {
           title: link.title,
           url: link.url,
         })),
-        suggestion:courseContent.suggestion,
+        suggestion: courseContent.suggestion,
       })
     );
 
